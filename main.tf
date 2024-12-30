@@ -31,16 +31,20 @@ resource "aws_s3_bucket" "static_website" {
     error_document = "error.html"
   }
 
-  # Block public access settings as per your request
-  block_public_acls = true
-  block_public_policy = true
-  ignore_public_acls  = true
-  restrict_public_buckets = true
-
   tags = {
     Name        = "Static Website Bucket"
     Environment = var.env
   }
+}
+
+# Block public access settings using aws_s3_bucket_public_access_block
+resource "aws_s3_bucket_public_access_block" "static_website" {
+  bucket = aws_s3_bucket.static_website.bucket
+
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
 }
 
 # Upload website files from GitHub (assuming they are downloaded locally)
