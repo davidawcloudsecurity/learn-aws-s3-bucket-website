@@ -35,6 +35,13 @@ resource "aws_s3_bucket" "static_website" {
     Name        = "Static Website Bucket"
     Environment = var.env
   }
+
+  # Enable Object Ownership BucketOwnerEnforced to ensure no ACLs are used
+  ownership_controls {
+    rules {
+      object_ownership = "BucketOwnerEnforced"
+    }
+  }
 }
 
 # Step 2: Block public access to the bucket using aws_s3_bucket_public_access_block
@@ -52,14 +59,14 @@ resource "aws_s3_object" "index_html" {
   bucket = aws_s3_bucket.static_website.bucket
   key    = "index.html"
   source = "./public/index.html"  # Local path to index.html
-  acl    = "public-read"  # Allow public read access for the object
+  # Removed acl to avoid ACL conflict
 }
 
 resource "aws_s3_object" "error_html" {
   bucket = aws_s3_bucket.static_website.bucket
   key    = "error.html"
   source = "./public/error.html"  # Local path to error.html
-  acl    = "public-read"  # Allow public read access for the object
+  # Removed acl to avoid ACL conflict
 }
 
 # Optional: Enable versioning on the bucket (Uncomment if versioning is needed)
