@@ -22,7 +22,7 @@ provider "aws" {
 }
 
 # Create the S3 bucket
-resource "aws_s3_bucket" "static_website" {
+resource "aws_s3_bucket_website_configuration" "static_website" {
   bucket = var.bucket_name
   acl    = "public-read"
 
@@ -39,7 +39,7 @@ resource "aws_s3_bucket" "static_website" {
 
 # Block public access settings using aws_s3_bucket_public_access_block
 resource "aws_s3_bucket_public_access_block" "static_website" {
-  bucket = aws_s3_bucket.static_website.bucket
+  bucket = aws_s3_bucket_website_configuration.static_website.bucket
 
   block_public_acls       = true
   block_public_policy     = true
@@ -50,14 +50,14 @@ resource "aws_s3_bucket_public_access_block" "static_website" {
 # Upload website files from GitHub (assuming they are downloaded locally)
 # You can manually sync these files, or use a local directory
 resource "aws_s3_object" "index_html" {
-  bucket = aws_s3_bucket.static_website.bucket
+  bucket = aws_s3_bucket_website_configuration.static_website.bucket
   key    = "index.html"
   source = "./public/index.html"  # Update with your local path
   acl    = "public-read"
 }
 
 resource "aws_s3_object" "error_html" {
-  bucket = aws_s3_bucket.static_website.bucket
+  bucket = aws_s3_bucket_website_configuration.static_website.bucket
   key    = "error.html"
   source = "./public/error.html"  # Update with your local path
   acl    = "public-read"
@@ -65,7 +65,7 @@ resource "aws_s3_object" "error_html" {
 /* MVP no need
 # Optional: Enable versioning on the bucket
 resource "aws_s3_bucket_versioning" "versioning" {
-  bucket = aws_s3_bucket.static_website.bucket
+  bucket = aws_s3_bucket_website_configuration.static_website.bucket
 
   versioning_configuration {
     status = "Enabled"
@@ -74,7 +74,7 @@ resource "aws_s3_bucket_versioning" "versioning" {
 
 # Optional: Enable logging (Specify a logging bucket if needed)
 resource "aws_s3_bucket_logging" "logging" {
-  bucket = aws_s3_bucket.static_website.bucket
+  bucket = aws_s3_bucket_website_configuration.static_website.bucket
 
   logging {
     target_bucket = "your-logging-bucket-name"  # Replace with your logging bucket name
@@ -85,8 +85,8 @@ resource "aws_s3_bucket_logging" "logging" {
 # Optional: Set up CloudFront distribution for the website (recommended for performance)
 resource "aws_cloudfront_distribution" "static_website" {
   origin {
-    domain_name = aws_s3_bucket.static_website.website_endpoint
-    origin_id   = "S3-${aws_s3_bucket.static_website.bucket}"
+    domain_name = aws_s3_bucket_website_configuration.static_website.website_endpoint
+    origin_id   = "S3-${aws_s3_bucket_website_configuration.static_website.bucket}"
 
     s3_origin_config {
       origin_access_identity = "origin-access-identity/cloudfront/your-identity-id"  # Optional for private access
@@ -98,7 +98,7 @@ resource "aws_cloudfront_distribution" "static_website" {
   comment = "CloudFront Distribution for Static Website"
 
   default_cache_behavior {
-    target_origin_id = "S3-${aws_s3_bucket.static_website.bucket}"
+    target_origin_id = "S3-${aws_s3_bucket_website_configuration.static_website.bucket}"
     viewer_protocol_policy = "redirect-to-https"
     allowed_methods = ["GET", "HEAD"]
     forwarded_values {
@@ -127,7 +127,7 @@ resource "aws_cloudfront_distribution" "static_website" {
 */
 
 output "website_url" {
-  value = "http://${aws_s3_bucket.static_website.website_endpoint}"
+  value = "http://${aws_s3_bucket_website_configuration.static_website.website_endpoint}"
 }
 /*
 output "cloudfront_url" {
