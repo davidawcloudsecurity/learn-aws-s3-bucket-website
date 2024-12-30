@@ -166,6 +166,50 @@
                 margin-left: 0;
             }
         }
+        /* Add this to your existing CSS */
+        footer {
+            background: #000;
+            color: white;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            box-sizing: border-box;
+        }
+    
+        .footer-left {
+            display: flex;
+            align-items: center;
+        }
+    
+        .footer-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+    
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+    
+        .social-links a {
+            color: #ff00ff; /* Purple color for social icons */
+            text-decoration: none;
+        }
+    
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+        }
+    
+        .copyright {
+            color: #ffffff;
+        }
     </style>
 </head>
 <body>
@@ -187,5 +231,27 @@
         <p>Gain practical expertise in securing cloud applications through hands-on AWS cloud security challenges</p>
         <button class="button start-free hero-cta">START FOR FREE</button>
     </section>
+    <!-- Add this before closing body tag -->
+    <footer>
+        <div class="footer-left">
+            <div class="copyright">© 2024 Pwned Labs.</div>
+        </div>
+        <div class="footer-right">
+            <div class="footer-links">
+                <a href="/privacy">Privacy Policy</a>
+                <a href="/terms">Terms & Conditions</a>
+            </div>
+            <div class="social-links">
+                <a href="#" class="linkedin">
+                    <i class="fab fa-linkedin"></i>
+                </a>
+                <a href="#" class="twitter">
+                    <i class="fab fa-twitter"></i>
+                </a>
+            </div>
+        </div>
+    </footer>
+<!-- Add Font Awesome for social icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">   
 </body>
 </html>
