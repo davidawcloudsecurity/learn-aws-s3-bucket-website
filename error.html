@@ -4,53 +4,86 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>404 - CyberTraining Lab</title>
-    <link rel="stylesheet" href="mystyle.css">
     <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #404040;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Navigation styling */
+        .nav-links {
+            padding: 10px;
+            background: white;
+        }
+
+        .nav-links a:first-child { /* CyberTraining Lab */
+            font-size: 24px;
+            color: blue;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .nav-links a { /* Home Labs Pricing */
+            color: blue;
+            text-decoration: none;
+            margin-right: 15px;
+            font-size: 16px;
+        }
+
+        .sign-in, .start-free {
+            background: #e0e0e0;
+            border: 1px solid #999;
+            padding: 5px 10px;
+            margin-left: 5px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        /* 404 content */
         .error-container {
-            height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            min-height: 80vh;
             text-align: center;
-            background: #404040;
+            color: white;
         }
 
-        .error-image {
-            width: 300px; /* Adjust size as needed */
-            height: auto;
-            margin-bottom: 20px;
+        .error-code {
+            font-size: 200px;
+            color: #4CAF50;
+            margin: 0;
         }
 
         .error-message {
-            font-size: 24px;
-            color: white;
-            margin: 20px 0 40px 0;
-            max-width: 800px;
+            font-size: 32px;
+            margin: 20px 0;
+            max-width: 900px;
         }
 
         .return-button {
-            display: inline-block;
-            padding: 15px 30px;
             background: #4CAF50;
             color: white;
             text-decoration: none;
+            padding: 15px 30px;
             border-radius: 8px;
-            font-size: 18px;
+            font-size: 20px;
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
-    <!-- Using the same navigation as index.html -->
-    <div class="nav-bar">
-        <a href="/" class="logo">CyberTraining Lab</a>
-        <div class="nav-links">
-            <a href="/">Home</a>
-            <a href="/labs">Labs</a>
-            <a href="/pricing">Pricing</a>
-            <button class="button sign-in">Sign In</button>
-            <button class="button start-free">Start For Free</button>
-        </div>
+    <div class="nav-links">
+        <a href="/">CyberTraining Lab</a>
+        <a href="/">Home</a>
+        <a href="/labs">Labs</a>
+        <a href="/pricing">Pricing</a>
+        <button class="sign-in">Sign In</button>
+        <button class="start-free">Start For Free</button>
     </div>
 
     <div class="error-container">
