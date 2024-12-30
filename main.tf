@@ -45,13 +45,21 @@ resource "aws_s3_bucket_ownership_controls" "static_website" {
   }
 }
 
+# Step 1: Set account-level public access block settings for S3
+resource "aws_s3_account_public_access_block" "account_block_public_access" {
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = false
+  restrict_public_buckets = false
+}
+
 # Step 2: Block public access to the bucket using aws_s3_bucket_public_access_block
 resource "aws_s3_bucket_public_access_block" "static_website" {
   bucket = aws_s3_bucket.static_website.bucket
 
   block_public_acls       = true
   block_public_policy     = true
-  ignore_public_acls      = true
+  ignore_public_acls      = false
   restrict_public_buckets = false
 }
 
