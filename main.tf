@@ -96,6 +96,25 @@ resource "null_resource" "s3_upload" {
   }
 }
 
+# Step 4: Null resource to delete all objects inside the S3 bucket before deletion (only on destroy)
+resource "null_resource" "delete_objects" {
+  depends_on = [aws_s3_bucket.static_website]
+
+  provisioner "local-exec" {
+    command = "aws s3 rm s3://${aws_s3_bucket.static_website.bucket}/ --recursive"
+    
+    when = destroy  # Ensure this only runs during terraform destroy
+  }
+
+  triggers = {
+    bucket_name = aws_s3_bucket.static_website.bucket
+  }
+
+  lifecycle {
+    prevent_destroy = false  # Allow destruction of the resource
+  }
+}
+
 # Optional: Enable versioning on the bucket (Uncomment if versioning is needed)
 # resource "aws_s3_bucket_versioning" "versioning" {
 #   bucket = aws_s3_bucket.static_website.bucket
