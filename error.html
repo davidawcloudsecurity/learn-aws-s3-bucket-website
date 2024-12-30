@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>404 - CyberTraining Lab</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <title>Error 404 | CyberTraining Lab</title>
     <style>
         * {
             margin: 0;
@@ -13,90 +12,10 @@
         }
 
         body {
-            font-family: 'Roboto', sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background: #404040;
-        }
-
-        /* Navigation Styles */
-        .nav-bar {
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-            padding: 20px 40px;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(10px);
-        }
-
-        .nav-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .logo {
-            font-size: 2rem;
-            font-weight: bold;
-            color: #fff;
-            text-decoration: none;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 30px;
-            align-items: center;
-        }
-
-        .nav-links a {
-            color: #fff;
-            text-decoration: none;
-            font-size: 1.1rem;
-            transition: color 0.3s ease;
-        }
-
-        .nav-links a:hover {
-            color: #4CAF50;
-        }
-
-        /* Button Styles */
-        .button {
-            padding: 12px 24px;
-            border-radius: 5px;
-            border: none;
-            font-size: 1.1rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .sign-in {
-            background: transparent;
-            border: 2px solid #fff;
-            color: #fff;
-        }
-
-        .sign-in:hover {
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        .start-free {
-            background: #4CAF50;
-            color: #fff;
-            font-weight: bold;
-            margin-left: 15px;
-        }
-
-        .start-free:hover {
-            background: #45a049;
-            transform: translateY(-2px);
-        }
-
-        /* Error Page Styles */
-        .error-container {
-            height: 100vh;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0C0D14;
+            color: white;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -106,88 +25,42 @@
         }
 
         .error-code {
-            font-size: 200px;
-            color: #4CAF50;
-            margin: 0;
+            font-size: 180px;
+            font-weight: 500;
             line-height: 1;
+            margin-bottom: 20px;
         }
 
-        .error-message {
+        h1 {
             font-size: 32px;
-            color: white;
-            margin: 20px 0;
-            max-width: 900px;
+            margin-bottom: 12px;
         }
 
-        .return-button {
-            display: inline-block;
-            padding: 15px 30px;
-            background: #4CAF50;
+        p {
+            font-size: 16px;
+            color: #9BA1AE;
+            margin-bottom: 32px;
+        }
+
+        .go-back {
+            background: #4A5367;
             color: white;
             text-decoration: none;
-            border-radius: 8px;
-            font-size: 20px;
-            margin-top: 20px;
+            padding: 12px 32px;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: background 0.2s ease;
         }
 
-        .return-button:hover {
-            background: #45a049;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .nav-content {
-                flex-direction: column;
-                gap: 20px;
-            }
-            
-            .nav-links {
-                flex-direction: column;
-                width: 100%;
-                gap: 15px;
-            }
-            
-            .button {
-                width: 100%;
-                margin: 5px 0;
-            }
-
-            .start-free {
-                margin-left: 0;
-            }
-
-            .error-code {
-                font-size: 120px;
-            }
-
-            .error-message {
-                font-size: 24px;
-            }
+        .go-back:hover {
+            background: #5A6377;
         }
     </style>
 </head>
 <body>
-    <nav class="nav-bar">
-        <div class="nav-content">
-            <a href="#" class="logo">CyberTraining Lab</a>
-            <div class="nav-links">
-                <a href="#home">Home</a>
-                <a href="#labs">Labs</a>
-                <a href="#pricing">Pricing</a>
-                <button class="button sign-in">Sign In</button>
-                <button class="button start-free">Start For Free</button>
-            </div>
-        </div>
-    </nav>
-
-    <div class="error-container">
-        <!-- 404 Image -->
-        <img src="./assets/404.jpg" alt="404 Error" class="error-image">
-        <!-- or you could use a specific path like: -->
-        <!-- <img src="./assets/404.jpg" alt="404 Error" class="error-image"> -->
-        
-        <p class="error-message">Oops! The page you're looking for seems to have disappeared into the cyber void.</p>
-        <a href="/" class="return-button">Return to Homepage</a>
-    </div>
+    <div class="error-code">404</div>
+    <h1>Ooops!</h1>
+    <p>The page you requested was not found!</p>
+    <a href="/" class="go-back">Go Back</a>
 </body>
 </html>
