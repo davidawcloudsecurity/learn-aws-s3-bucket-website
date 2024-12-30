@@ -52,7 +52,7 @@ resource "aws_s3_bucket_public_access_block" "static_website" {
   block_public_acls       = true
   block_public_policy     = true
   ignore_public_acls      = true
-  restrict_public_buckets = true
+  restrict_public_buckets = false
 }
 
 # Step 3: Upload website files from GitHub (locally downloaded files)
