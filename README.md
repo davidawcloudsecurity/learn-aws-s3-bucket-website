@@ -1,7 +1,6 @@
 # learning-s3-bucket-website
 How to setup a static website with AWS S3 bucket
 Theme - https://github.com/sproogen/modern-resume-theme
-
 ## https://developer.hashicorp.com/terraform/install
 Install if running at cloudshell
 ```ruby
@@ -21,6 +20,10 @@ echo "Environment: $environment"
 tfa -var bucket_name=$bucketname -var region=$region -var env=$environment
 ```
 ### Draft
+```bash
+bucketname="" ; \
+aws s3 cp /public s3://{$bucketname}/ --recursive
+```
 ### References
 - [ ] Security Engineer Learning Path https://www.cloudskillsboost.google/paths/15
 - [ ] Security Engineering on AWS https://aws.amazon.com/training/classroom/security-engineering-on-aws/
