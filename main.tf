@@ -52,14 +52,14 @@ resource "aws_s3_bucket_public_access_block" "static_website" {
 resource "aws_s3_object" "index_html" {
   bucket = aws_s3_bucket.static_website.bucket
   key    = "index.html"
-  source = "./local/path/to/index.html"  # Update with your local path
+  source = "./public/index.html"  # Update with your local path
   acl    = "public-read"
 }
 
 resource "aws_s3_object" "error_html" {
   bucket = aws_s3_bucket.static_website.bucket
   key    = "error.html"
-  source = "./local/path/to/error.html"  # Update with your local path
+  source = "./public/error.html"  # Update with your local path
   acl    = "public-read"
 }
 /* MVP no need
