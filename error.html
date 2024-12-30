@@ -4,72 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>404 - CyberTraining Lab</title>
+    <link rel="stylesheet" href="mystyle.css">
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background: #404040;
-            font-family: Arial, sans-serif;
-        }
-
-        .nav-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 40px;
-            background: #000;
-        }
-
-        .logo {
-            color: white;
-            text-decoration: none;
-            font-size: 24px;
-            font-weight: bold;
-        }
-
-        .nav-links {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .nav-links a {
-            color: white;
-            text-decoration: none;
-        }
-
-        .sign-in {
-            padding: 8px 20px;
-            background: transparent;
-            border: 1px solid white;
-            border-radius: 4px;
-            color: white;
-            cursor: pointer;
-        }
-
-        .start-free {
-            padding: 8px 20px;
-            background: #4CAF50;
-            border: none;
-            border-radius: 4px;
-            color: white;
-            cursor: pointer;
-        }
-
-        /* Rest of your error page styles */
         .error-container {
+            height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: calc(100vh - 100px);
             text-align: center;
+            background: #404040;
         }
 
-        .error-code {
-            font-size: 150px;
-            color: #4CAF50;
-            margin: 0;
+        .error-image {
+            width: 300px; /* Adjust size as needed */
+            height: auto;
+            margin-bottom: 20px;
         }
 
         .error-message {
@@ -91,19 +41,24 @@
     </style>
 </head>
 <body>
-    <nav class="nav-bar">
+    <!-- Using the same navigation as index.html -->
+    <div class="nav-bar">
         <a href="/" class="logo">CyberTraining Lab</a>
         <div class="nav-links">
             <a href="/">Home</a>
             <a href="/labs">Labs</a>
             <a href="/pricing">Pricing</a>
-            <button class="sign-in">Sign In</button>
-            <button class="start-free">Start For Free</button>
+            <button class="button sign-in">Sign In</button>
+            <button class="button start-free">Start For Free</button>
         </div>
-    </nav>
+    </div>
 
     <div class="error-container">
-        <h1 class="error-code">404</h1>
+        <!-- 404 Image -->
+        <img src="404.png" alt="404 Error" class="error-image">
+        <!-- or you could use a specific path like: -->
+        <!-- <img src="assets/images/404.png" alt="404 Error" class="error-image"> -->
+        
         <p class="error-message">Oops! The page you're looking for seems to have disappeared into the cyber void.</p>
         <a href="/" class="return-button">Return to Homepage</a>
     </div>
