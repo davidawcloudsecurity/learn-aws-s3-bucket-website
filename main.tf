@@ -35,12 +35,13 @@ resource "aws_s3_bucket" "static_website" {
     Name        = "Static Website Bucket"
     Environment = var.env
   }
+}
 
-  # Enable Object Ownership BucketOwnerEnforced to ensure no ACLs are used
-  ownership_controls {
-    rules {
-      object_ownership = "BucketOwnerEnforced"
-    }
+resource "aws_s3_bucket_ownership_controls" "static_website" {
+  bucket = aws_s3_bucket.static_website.id
+
+  rule {
+    object_ownership = "BucketOwnerPreferred"
   }
 }
 
