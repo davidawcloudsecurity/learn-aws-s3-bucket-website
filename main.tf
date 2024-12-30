@@ -77,9 +77,10 @@ resource "null_resource" "s3_upload" {
   provisioner "local-exec" {
     command = "aws s3 cp ./public/assets s3://${aws_s3_bucket.static_website.bucket}/ --recursive --exclude '*' --include 'index.html' --include 'error.html'"
 
-    environment = {
-      AWS_PROFILE = "your-aws-profile"  # Optionally, specify your AWS CLI profile if not using the default
-    }
+    # include if using outside of cloudshell
+    # environment = {
+    #  AWS_PROFILE = "your-aws-profile"  # Optionally, specify your AWS CLI profile if not using the default
+    #}
   }
 }
 
