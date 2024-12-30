@@ -90,19 +90,6 @@ resource "null_resource" "s3_upload" {
     #  AWS_PROFILE = "your-aws-profile"  # Optionally, specify your AWS CLI profile if not using the default
     #}
   }
-}
-
-resource "null_resource" "delete_s3_bucket" {
-  depends_on = [aws_s3_bucket.static_website]
-
-  provisioner "local-exec" {
-    command = "aws s3 rb s3://${aws_s3_bucket.static_website.bucket} --force"
-  }
-
-  triggers = {
-    bucket_name = aws_s3_bucket.static_website.bucket
-  }
-
   # Ensure null_resource gets executed when running terraform destroy
   lifecycle {
     prevent_destroy = false
