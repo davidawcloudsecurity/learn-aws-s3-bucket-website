@@ -2,29 +2,29 @@
 variable "bucket_name" {
   description = "The name of the S3 bucket"
   type        = string
-  default     = "davidawcloudsecurity123"  # default value
+  default     = "davidawcloudsecurity123"  # Default bucket name
 }
 
 variable "region" {
   description = "The AWS region to deploy the resources"
   type        = string
-  default     = "us-east-1"  # default value
+  default     = "us-east-1"  # Default AWS region
 }
 
 variable "env" {
-  description = "The AWS region to deploy the resources"
+  description = "The environment (e.g., Production, Development)"
   type        = string
-  default     = "Production"  # default value
+  default     = "Production"  # Default environment
 }
 
 provider "aws" {
   region = var.region
 }
 
-# Create the S3 bucket
+# Step 1: Create the S3 bucket for static website hosting
 resource "aws_s3_bucket" "static_website" {
   bucket = var.bucket_name
-  acl    = "public-read"
+  acl    = "private"  # ACL set to private to avoid conflicts with Object Ownership
 
   website {
     index_document = "index.html"
@@ -37,7 +37,7 @@ resource "aws_s3_bucket" "static_website" {
   }
 }
 
-# Block public access settings using aws_s3_bucket_public_access_block
+# Step 2: Block public access to the bucket using aws_s3_bucket_public_access_block
 resource "aws_s3_bucket_public_access_block" "static_website" {
   bucket = aws_s3_bucket.static_website.bucket
 
@@ -47,90 +47,89 @@ resource "aws_s3_bucket_public_access_block" "static_website" {
   restrict_public_buckets = true
 }
 
-# Upload website files from GitHub (assuming they are downloaded locally)
-# You can manually sync these files, or use a local directory
+# Step 3: Upload website files from GitHub (locally downloaded files)
 resource "aws_s3_object" "index_html" {
   bucket = aws_s3_bucket.static_website.bucket
   key    = "index.html"
-  source = "./public/index.html"  # Update with your local path
-  acl    = "public-read"
+  source = "./public/index.html"  # Local path to index.html
+  acl    = "public-read"  # Allow public read access for the object
 }
 
 resource "aws_s3_object" "error_html" {
   bucket = aws_s3_bucket.static_website.bucket
   key    = "error.html"
-  source = "./public/error.html"  # Update with your local path
-  acl    = "public-read"
+  source = "./public/error.html"  # Local path to error.html
+  acl    = "public-read"  # Allow public read access for the object
 }
-/* MVP no need
-# Optional: Enable versioning on the bucket
-resource "aws_s3_bucket_versioning" "versioning" {
-  bucket = aws_s3_bucket.static_website.bucket
 
-  versioning_configuration {
-    status = "Enabled"
-  }
-}
+# Optional: Enable versioning on the bucket (Uncomment if versioning is needed)
+# resource "aws_s3_bucket_versioning" "versioning" {
+#   bucket = aws_s3_bucket.static_website.bucket
+# 
+#   versioning_configuration {
+#     status = "Enabled"
+#   }
+# }
 
 # Optional: Enable logging (Specify a logging bucket if needed)
-resource "aws_s3_bucket_logging" "logging" {
-  bucket = aws_s3_bucket.static_website.bucket
-
-  logging {
-    target_bucket = "your-logging-bucket-name"  # Replace with your logging bucket name
-    target_prefix = "logs/"
-  }
-}
+# resource "aws_s3_bucket_logging" "logging" {
+#   bucket = aws_s3_bucket.static_website.bucket
+# 
+#   logging {
+#     target_bucket = "your-logging-bucket-name"  # Replace with your logging bucket name
+#     target_prefix = "logs/"
+#   }
+# }
 
 # Optional: Set up CloudFront distribution for the website (recommended for performance)
-resource "aws_cloudfront_distribution" "static_website" {
-  origin {
-    domain_name = aws_s3_bucket.static_website.website_endpoint
-    origin_id   = "S3-${aws_s3_bucket.static_website.bucket}"
+# resource "aws_cloudfront_distribution" "static_website" {
+#   origin {
+#     domain_name = aws_s3_bucket.static_website.website_endpoint
+#     origin_id   = "S3-${aws_s3_bucket.static_website.bucket}"
+# 
+#     s3_origin_config {
+#       origin_access_identity = "origin-access-identity/cloudfront/your-identity-id"  # Optional for private access
+#     }
+#   }
+# 
+#   enabled = true
+#   is_ipv6_enabled = true
+#   comment = "CloudFront Distribution for Static Website"
+# 
+#   default_cache_behavior {
+#     target_origin_id = "S3-${aws_s3_bucket.static_website.bucket}"
+#     viewer_protocol_policy = "redirect-to-https"
+#     allowed_methods = ["GET", "HEAD"]
+#     forwarded_values {
+#       query_string = false
+#       cookies {
+#         forward = "none"
+#       }
+#     }
+#   }
+# 
+#   price_class = "PriceClass_100"  # Low-cost option (US, Canada, Europe)
+#   
+#   # SSL certificate for HTTPS (you can request one from ACM)
+#   viewer_certificate {
+#     acm_certificate_arn = "your-certificate-arn"  # Replace with your ACM certificate ARN
+#     ssl_support_method   = "sni-only"
+#   }
+# 
+#   # Optional: Logging for CloudFront
+#   logging_config {
+#     include_cookies = false
+#     bucket          = "your-cloudfront-logs-bucket"
+#     prefix          = "cloudfront-logs/"
+#   }
+# }
 
-    s3_origin_config {
-      origin_access_identity = "origin-access-identity/cloudfront/your-identity-id"  # Optional for private access
-    }
-  }
-
-  enabled = true
-  is_ipv6_enabled = true
-  comment = "CloudFront Distribution for Static Website"
-
-  default_cache_behavior {
-    target_origin_id = "S3-${aws_s3_bucket.static_website.bucket}"
-    viewer_protocol_policy = "redirect-to-https"
-    allowed_methods = ["GET", "HEAD"]
-    forwarded_values {
-      query_string = false
-      cookies {
-        forward = "none"
-      }
-    }
-  }
-
-  price_class = "PriceClass_100"  # Low-cost option (US, Canada, Europe)
-  
-  # SSL certificate for HTTPS (you can request one from ACM)
-  viewer_certificate {
-    acm_certificate_arn = "your-certificate-arn"  # Replace with your ACM certificate ARN
-    ssl_support_method   = "sni-only"
-  }
-
-  # Optional: Logging for CloudFront
-  logging_config {
-    include_cookies = false
-    bucket          = "your-cloudfront-logs-bucket"
-    prefix          = "cloudfront-logs/"
-  }
-}
-*/
-
+# Step 4: Output the static website URL (S3 endpoint)
 output "website_url" {
-  value = "http://${aws_s3_bucket.static_website.website_endpoint}"
+  value = "http://${aws_s3_bucket.static_website.bucket}.s3-website-${var.region}.amazonaws.com"
 }
-/*
-output "cloudfront_url" {
-  value = "https://${aws_cloudfront_distribution.static_website.domain_name}"  # If using CloudFront
-}
-*/
+
+# Optional: Output CloudFront URL (uncomment if using CloudFront)
+# output "cloudfront_url" {
+#   value = "https://${aws_cloudfront_distribution.static_website.domain_name}"  # If using CloudFront
+# }
