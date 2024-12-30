@@ -92,6 +92,23 @@ resource "null_resource" "s3_upload" {
   }
 }
 
+resource "null_resource" "delete_s3_bucket" {
+  depends_on = [aws_s3_bucket.static_website]
+
+  provisioner "local-exec" {
+    command = "aws s3 rb s3://${aws_s3_bucket.static_website.bucket} --force"
+  }
+
+  triggers = {
+    bucket_name = aws_s3_bucket.static_website.bucket
+  }
+
+  # Ensure null_resource gets executed when running terraform destroy
+  lifecycle {
+    prevent_destroy = false
+  }
+}
+
 # Optional: Enable versioning on the bucket (Uncomment if versioning is needed)
 # resource "aws_s3_bucket_versioning" "versioning" {
 #   bucket = aws_s3_bucket.static_website.bucket
