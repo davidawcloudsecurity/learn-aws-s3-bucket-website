@@ -70,6 +70,19 @@ resource "aws_s3_object" "error_html" {
   # Removed acl to avoid ACL conflict
 }
 
+# Step 4: Null resource to upload local files from the "public" folder to S3
+resource "null_resource" "s3_upload" {
+  depends_on = [aws_s3_bucket.static_website]
+
+  provisioner "local-exec" {
+    command = "aws s3 cp ./public/assets s3://${aws_s3_bucket.static_website.bucket}/ --recursive --exclude '*' --include 'index.html' --include 'error.html'"
+
+    environment = {
+      AWS_PROFILE = "your-aws-profile"  # Optionally, specify your AWS CLI profile if not using the default
+    }
+  }
+}
+
 # Optional: Enable versioning on the bucket (Uncomment if versioning is needed)
 # resource "aws_s3_bucket_versioning" "versioning" {
 #   bucket = aws_s3_bucket.static_website.bucket
